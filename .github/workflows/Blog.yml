@@ -36,10 +36,10 @@ jobs:
       - name: Clone source code
         run: |
           Blog_VERSION=$(jq -r ".Blog_VERSION" config.json)
-          git clone https://github.com/Meekdai/Blog.git /opt/Blog;
-          cd /opt/Blog/
+          git clone https://github.com/zhfou/blog.git /opt/blog;
+          cd /opt/blog/
           lastTag=$(git describe --tags `git rev-list --tags --max-count=1`)
-          if [ $Blog_VERSION == 'last' ]; then git checkout $lastTag; else git checkout $Blog_VERSION; fi;
+          if [ $blog_VERSION == 'last' ]; then git checkout $lastTag; else git checkout $blog_VERSION; fi;
 
       - name: Install dependencies
         run: |
@@ -48,12 +48,12 @@ jobs:
 
       - name: Generate new html
         run: |
-          cp -r ./* /opt/Blog/
-          cd /opt/Blog/
-          python Blog.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }} --issue_number '${{ github.event.issue.number }}'
-          cp -a /opt/Blog/docs ${{ github.workspace }} 
-          cp -a /opt/Blog/backup ${{ github.workspace }} 
-          cp /opt/Blog/blogBase.json ${{ github.workspace }} 
+          cp -r ./* /opt/blog/
+          cd /opt/blog/
+          python blog.py ${{ secrets.GITHUB_TOKEN }} ${{ github.repository }} --issue_number '${{ github.event.issue.number }}'
+          cp -a /opt/blog/docs ${{ github.workspace }} 
+          cp -a /opt/blog/backup ${{ github.workspace }} 
+          cp /opt/blog/blogBase.json ${{ github.workspace }} 
           
       - name: update html
         run: |
